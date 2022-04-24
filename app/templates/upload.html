@@ -1,0 +1,140 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <meta charset="UTF-8">
+  <!-- import CSS -->
+  <link rel="stylesheet" href="https://unpkg.com/element-ui@2.15.8/lib/theme-chalk/index.css">
+  <style>
+  .h1 {
+    text-align: center;
+    line-height: 60px;
+  }
+  .el-form {
+    box-shadow: 0 2px 4px rgba(0, 0, 0, .12), 0 0 6px rgba(0, 0, 0, .04);
+    margin:0 auto;
+    padding: 20px;
+    width: 80%;
+  }
+  .el-card {
+    width: 80%;
+  }
+  .doc {
+    box-shadow: 0 2px 4px rgba(0, 0, 0, .12), 0 0 6px rgba(0, 0, 0, .04);
+    margin:0 auto;
+    padding: 100px;
+    line-height: 60px;
+    width: 80%;
+  }
+   code {
+    background-color: #EBEEF5;
+    padding: 0 4px;
+    border: 1px solid #eaeefb;
+    border-radius: 4px;
+  }
+  .upload-form {
+    box-shadow: 0 2px 4px rgba(0, 0, 0, .12), 0 0 6px rgba(0, 0, 0, .04);
+    width: 80%;
+  }
+
+</style>
+</head>
+<body>
+  <div id="app">
+        <h1 style="text-align: center;">简单的图片文字识别</h1>
+        <el-form label-width="80px">
+          <el-form-item>
+            <el-card class="box-card">
+          <div slot="header" class="clearfix">
+              <span style="font-size: 18px;">文档</span>
+          </div>
+              <div>
+                <el-divider>
+                <span>简述</span>
+                </el-divider>
+                本系统采用 <code>muggle-ocr</code> 模块进行识别，暂仅支持 <code>muggle_ocr.ModelType.OCR</code> <code>muggle_ocr.ModelType.Captcha</code>识别方法，暂不支持自定义训练后的 <code>yml</code> 文件。
+              </div>
+              <el-divider>
+                <span>为甚么要远程调用图片文字识别？</span>
+                </el-divider>
+              <div>
+                1. 因为图片识别需要用到 <code>大数据包</code>、<code>图片处理包</code>等大型数据包及依赖包，造成项目的镜像过大，单独部署有利于项目优化。
+              </div>
+              <div>
+                2. 图片识别采用机器训练周期长，学习成本大。
+              </div>
+              <div>
+                3. 百度云文字识别系统、网易文字识别系统等免费版都有次数限制。
+              </div>
+        </el-card>
+          </el-form-item>
+          <el-form-item>
+          <el-card class="box-card">
+            <div slot="header" class="clearfix">
+              <span style="font-size: 18px;">在线识别</span>
+          </div>
+          <el-form-item label="识别类型: ">
+            <el-radio-group v-model="upload_file_params.model_type">
+              <el-radio label="ocr">文字识别</el-radio>
+              <el-radio label="captcha">验证码识别</el-radio>
+            </el-radio-group>
+          </el-form-item>
+          <el-form-item label="操作: ">
+    <el-upload
+  class="upload-demo"
+  ref="upload"
+  action="api/v1/muggle-ocr"
+  :data="upload_file_params"
+  :on-success="upload_success"
+  :auto-upload="false"
+    >
+  <el-button slot="trigger" size="small" type="primary"><i class="el-icon-plus"></i>
+    选取文件</el-button>
+  <el-button style="margin-left: 10px;" size="small" type="success"
+             @click="submitUpload"><i class="el-icon-upload"></i> 开始识别</el-button>
+  <div slot="tip" class="el-upload__tip">只能上传jpg/png/jpeg文件，且不超过1MB</div>
+</el-upload>
+            </el-form-item>
+          </el-card>
+            </el-form-item>
+        </el-form>
+    <el-dialog
+  title="解析结果"
+  :visible.sync="dialogVisible"
+  width="30%">
+  <span>{{ result }}</span>
+</el-dialog>
+  </div>
+
+</body>
+  <!-- import Vue before Element -->
+  <script src="https://unpkg.com/vue@2.6.14/dist/vue.js"></script>
+  <!-- import JavaScript -->
+  <script src="https://unpkg.com/element-ui@2.15.8/lib/index.js"></script>
+  <script>
+    new Vue({
+      el: '#app',
+      data: function() {
+        return {
+        upload_file_params: {
+            model_type: 'captcha'
+            },
+        result: '',
+        dialogVisible: false
+          }
+        },
+      methods: {
+          submitUpload() {
+              res = this.$refs.upload.submit()
+              console.log(res)
+            },
+          upload_success(response, file) {
+              console.log(response)
+              console.log(file.name)
+              this.result = response.result
+              console.log(this.result)
+              this.dialogVisible = true
+            }
+          }
+    })
+  </script>
+</html>
