@@ -39,7 +39,7 @@ def upload_file():
     if file.filename == '':
         raise RequestInvalidParams(message='无文件名!!!')
     if file and allowed_file(file.filename):
-
+        print(file.size)
         end_pix = file.filename.rsplit('.', 1)[1].lower()
         logger.info('<文件类型:{}><文件类型:{}>'.format(end_pix, file.filename))
         security_filename = secure_filename(file.filename)

@@ -12,14 +12,16 @@ class Config(object):
             self.init_app(app)
 
     FLASK_APP = 'teleraan-ocr'
-    FLASK_ENV = 'development'
+    FLASK_ENV = os.environ.get('FLASK_ENV', 'development')
     SECRET_KEY = '&#zw1ysGmyOMYHNQ5^smr&1U#99YuN&3pM^G3wxfsjSUe6#BZCuBBjRKKssmQznt'
-    ENV = 'development'
-    DEBUG = True
-    TESTING = True
+    ENV = os.environ.get('ENV', 'development')
+    DEBUG = os.environ.get('DEBUG', False)
+    TESTING = os.environ.get('TESTING', False)
     LANG = 'en_US.UTF-8'
     LC_CTYPE = 'en_US.UTF-8'
-    APP_TIMEZONE = "Asia/Shanghai"
+    APP_TIMEZONE = os.environ.get('APP_TIMEZONE', "Asia/Shanghai")
+    # 限制大小
+    MAX_CONTENT_LENGTH = 1024 * 1024
 
     # 容器内的日志配置
     APP_LOG_FILENAME = os.environ.get('APP_LOG_FILENAME', '/tmp/app.log')
@@ -29,7 +31,7 @@ class Config(object):
     APP_LOG_DELAY = bool(int(os.environ.get('APP_LOG_DELAY', 1)))
 
     DATABASE_HOST = os.environ.get('DATABASE_HOST', '127.0.0.1')
-    DATABASE_USER = os.environ.get('DATABASE_USER', 'teletraan-ocr')
+    DATABASE_USER = os.environ.get('DATABASE_USER', 'teletraan')
     DATABASE_PORT = int(os.environ.get('DATABASE_PORT', 3306))
     DATABASE_PASSWORD = os.environ.get('DATABASE_PASSWORD', 'Teletraan-OCR@1024')
     DATABASE_NAME = os.environ.get('DATABASE_NAME', 'teletraan')
@@ -71,5 +73,4 @@ class Config(object):
         app.config.from_object(self)
 
         if getattr(self, 'DEBUG'):
-            print(app.config)
             print(json.dumps(self.to_json(), default=str, indent=4))
