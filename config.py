@@ -21,7 +21,7 @@ class Config(object):
     LC_CTYPE = 'en_US.UTF-8'
     APP_TIMEZONE = os.environ.get('APP_TIMEZONE', "Asia/Shanghai")
     # 限制大小
-    MAX_CONTENT_LENGTH = 1024 * 1024
+    MAX_CONTENT_LENGTH = 1024 * 1024 * 10
 
     # 容器内的日志配置
     APP_LOG_FILENAME = os.environ.get('APP_LOG_FILENAME', '/tmp/app.log')

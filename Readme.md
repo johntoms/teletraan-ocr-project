@@ -7,7 +7,12 @@
 - mysql
 - docker
 - muggle-ocr
-
+## 项目主要配置
+```text
+1. 图片存储位置: /code/muggle-images
+2. 日志(默认)存储位置: /tmp/app.log
+3. 上传大小配置: muggle-ocr 环境变量 `MAX_CONTENT_LENGTH`
+```
 
 ## 容器
 ```text
@@ -29,7 +34,7 @@ CMD ["/bin/sh", "start.sh"]
 ```
 
 ## 使用文档
-
+> 服务器要求：建议 `2H4G` .
 ### `docker` 部署
 ```shell
 # 部署 teletraan-muggle-ocr
@@ -44,7 +49,7 @@ docker run --name teletraan-muggle-ocr \
     -e DATABASE_USER='teletraan' \
     -e DATABASE_NAME='teletraan' \
     -e DATABASE_PASSWORD='Teletraan-OCR@1024' \
-    -d registry.cn-hangzhou.aliyuncs.com/private_app/teletraan-ocr-project:1.0.1
+    -d registry.cn-hangzhou.aliyuncs.com/private_app/teletraan-ocr-project:1.0.3
 
 
 # 部署 mysql
@@ -93,7 +98,7 @@ services:
       --collation-server=utf8mb4_general_ci
       --default-authentication-plugin=mysql_native_password
   muggle-ocr:
-    image: registry.cn-hangzhou.aliyuncs.com/private_app/teletraan-ocr-project:1.0.1
+    image: registry.cn-hangzhou.aliyuncs.com/private_app/teletraan-ocr-project:1.0.3
     restart: always
     container_name: teletraan-muggle-ocr
     environment:
@@ -137,7 +142,7 @@ docker-compose -f docker-compose.yml rm
 1. 选择图片的识别类型
 2. 点击 `选取文件`
 3. 点击 `开始识别`
-注意事项: 只能上传jpg/png/jpeg文件，且不超过1MB
+注意事项: 只能上传jpg/png/jpeg文件，且不超过10MB
 ```
 
 ### 后端使用 API 进行验证

@@ -39,7 +39,6 @@ def upload_file():
     if file.filename == '':
         raise RequestInvalidParams(message='无文件名!!!')
     if file and allowed_file(file.filename):
-        print(file.size)
         end_pix = file.filename.rsplit('.', 1)[1].lower()
         logger.info('<文件类型:{}><文件类型:{}>'.format(end_pix, file.filename))
         security_filename = secure_filename(file.filename)
@@ -63,6 +62,8 @@ def upload_file():
         img_bytes = f.read()
     result = mg_sdk.predict(image_bytes=img_bytes)
     logger.info('<解析文字:{}>'.format(result))
+
+    # 日志记录到数据库
     OCRLogging().from_dict({
         'id': create_id('ocr_log'),
         'image_file_name': abs_security_filename,

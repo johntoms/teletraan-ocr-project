@@ -21,7 +21,7 @@ services:
       --collation-server=utf8mb4_general_ci
       --default-authentication-plugin=mysql_native_password
   muggle-ocr:
-    image: registry.cn-hangzhou.aliyuncs.com/private_app/teletraan-ocr-project:1.0.1
+    image: registry.cn-hangzhou.aliyuncs.com/private_app/teletraan-ocr-project:1.0.2
     restart: always
     container_name: teletraan-muggle-ocr
     environment:
