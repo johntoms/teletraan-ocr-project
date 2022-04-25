@@ -7,6 +7,8 @@
 - mysql
 - docker
 - muggle-ocr
+- 前后端分离
+
 ## 项目主要配置
 ```text
 1. 图片存储位置: /code/muggle-images
